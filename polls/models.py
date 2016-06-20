@@ -12,7 +12,7 @@ class Question(models.Model):
 		return self.question_text
 	def was_published_recently(self):
 		now=timezone.now()
-		return now-dt.timedelta(days=1)<=self.pub_date<=now
+		return now-dt.timedelta(days=1)<=self.pub_date<=now	
 	
 #@python_2_unicode_compatible
 class Choice(models.Model):
