@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 import datetime as dt
+from django.contrib.auth.models import User
 
 #@python_2_unicode_compatible
 class Question(models.Model):
@@ -25,3 +26,12 @@ class Choice(models.Model):
 	
 	def __str__(self):
 		return self.choice_text
+
+class UserProfile(models.Model):
+	user = models.OneToOneField(User)
+	website = models.URLField(blank=True)
+	picture = models.ImageField(upload_to='profile_images',blank=True)
+	
+	def __unicode__(self):
+		return self.user.username
+	
