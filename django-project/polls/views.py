@@ -64,6 +64,4 @@ def register(request):
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 	
-	return render(request,
-			'polls/request.html',
-			{'user_form':user_form, 'profile_form':profile_form,'registered':registered})
+	return render(request, 'polls/register.html',{'user_form':user_form, 'profile_form':profile_form,'registered':registered})
