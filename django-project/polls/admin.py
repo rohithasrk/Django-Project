@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Question, Choice
+from .models import Question, Choice, UserProfile
 
 #admin.site.register(Question)
 #admin.site.register(Choice)
@@ -19,3 +19,4 @@ class QuestionAdmin(admin.ModelAdmin):
 	list_filter=['pub_date']
 
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(UserProfile)
