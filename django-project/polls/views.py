@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from .forms import *
+from django.contrib.auth.decorators import login_required
 
 class IndexView(generic.ListView):
 		template_name='polls/index.html'
