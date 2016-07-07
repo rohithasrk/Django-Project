@@ -6,18 +6,18 @@ from django.views import generic
 from django.utils import timezone
 from .forms import UserForm, UserProfileForm
 from django.template import loader
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout	
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.contrib.auth.models import User
+from .forms import *
 
 class IndexView(generic.ListView):
-	template_name='polls/index.html'
-	context_object_name='latest_question_list'
+		template_name='polls/index.html'
+		context_object_name='latest_question_list'
 
-	def get_queryset(self):
-		#return Question.objects.order_by('-pub_date')[:5]
-		return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
-
+		def get_queryset(self):
+			return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+	
 class DetailView(generic.DetailView):
 	#if question.was_published_recently():
 	model = Question
@@ -86,3 +86,9 @@ def user_login(request):
 			return HttpResponseRedirect("Invalid login details")
 	else:
 		return render(request,'polls/login.html',{})
+
+@login_required
+def user_logout(request):
+	logout(request)
+	return HttpResponseRedirect('/polls/')
+	

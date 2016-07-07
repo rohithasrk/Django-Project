@@ -1,6 +1,9 @@
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="../../static/polls/style.css"/>
-
+{% if user.is_authenticated %}
+<h1>Hello {{ user.username }}!</h1>
+{% else %}
+<h1>Hello</h1>
+{% endif %}
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
