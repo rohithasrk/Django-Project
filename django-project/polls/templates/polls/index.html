@@ -1,15 +1,17 @@
 {% load staticfiles %}
 {% if user.is_authenticated %}
-<h1>Hello {{ user.username }}!</h1>
+	<h1>Hello {{ user.username }}!</h1>
+	{% if latest_question_list %}
+    	<ul>
+    	{% for question in latest_question_list %}
+        	<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    	{% endfor %}
+    	</ul>
+	{% else %}
+    	<p>No polls are available.</p>
+	{% endif %}
+	<a href="/polls/logout/">Logout</a>
 {% else %}
-<h1>Hello</h1>
-{% endif %}
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
+	<h1> Hello! Please login to continue</h1>
+	<a href="/polls/login/">Login</a>
 {% endif %}

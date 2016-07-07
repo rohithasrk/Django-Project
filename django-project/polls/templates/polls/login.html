@@ -4,6 +4,7 @@
 	<title>polls-login</title>
 	</head>
 	<body>
+		{% if not user.is_authenticated %}
 		<h1>Login to Polls</h1>
 		<form id='login-form' method='post' action='/polls/login/'>
 		{% csrf_token %}
@@ -12,5 +13,11 @@
 		
 		<input type="submit" value="submit"/>
 		</form>
+		Don't have an account? <a href="/polls/register">Register here</a>
+		{% else %}
+		<h1>Already logged in as {{user.username}}</h1>
+		<a href="/polls/logout/">LogOut</a>
+		<a href="/polls/">Home</a>
+		{% endif %}
 	</body>
 </html>
