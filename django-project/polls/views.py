@@ -31,6 +31,7 @@ class ResultsView(generic.DetailView):
 	template_name = 'polls/results.html'
 
 def vote(request, question_id):
+	#if not request.user.voted:
 	question = get_object_or_404(Question, pk=question_id)
 	try:
 		selected_choice=question.choice_set.get(pk=request.POST['choice'])
@@ -39,7 +40,10 @@ def vote(request, question_id):
 	else:
 		selected_choice.votes+=1
 		selected_choice.save()
+		request.user.voted=True
 		return HttpResponseRedirect(reverse('polls:results',args=(question_id,)))
+	#else:
+	#	return HttpResponseRedirect("You've already voted")
 
 def register(request):
 	registered = False
@@ -47,7 +51,6 @@ def register(request):
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
-	
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
 			user.set_password(user.password)
@@ -55,7 +58,7 @@ def register(request):
 		
 			profile = profile_form.save(commit=False)
 			profile.user=user
-	
+			
 			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 				profile.save()
