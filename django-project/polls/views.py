@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,Http404,HttpResponseRedirect
-from .models import Question, Choice, UserProfile
+from .models import Question, Choice, UserProfile, Voter
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
@@ -20,30 +20,28 @@ class IndexView(generic.ListView):
 			return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 	
 class DetailView(generic.DetailView):
-	#if question.was_published_recently():
 	model = Question
 	template_name = 'polls/detail.html'
-	#else:
-	#	raise Http404
 
 class ResultsView(generic.DetailView):
 	model=Question
 	template_name = 'polls/results.html'
 
 def vote(request, question_id):
-	#if not request.user.voted:
-	question = get_object_or_404(Question, pk=question_id)
-	try:
-		selected_choice=question.choice_set.get(pk=request.POST['choice'])
-	except(KeyError, Choice.DoesNotExist):
-		return render(request, 'polls/detail.html',{'question':question, 'error_message':"You didn't select a choice."})
+	question=get_object_or_404(Question,pk=question_id)
+	if not Voter.objects.filter(question_id=question_id,user_id=request.user.id).exists():
+		try:
+			selected_choice=question.choice_set.get(pk=request.POST['choice'])
+		except(KeyError, Choice.DoesNotExist):
+			return render(request, 'polls/detail.html',{'question':question, 'error_message':"You didn't select a choice."})
+		else:
+			selected_choice.votes+=1
+			selected_choice.save()
+			v=Voter(user=request.user,question=question)
+			v.save()
+			return HttpResponseRedirect(reverse('polls:results',args=(question_id,)))
 	else:
-		selected_choice.votes+=1
-		selected_choice.save()
-		request.user.voted=True
-		return HttpResponseRedirect(reverse('polls:results',args=(question_id,)))
-	#else:
-	#	return HttpResponseRedirect("You've already voted")
+		return render(request,'polls/detail.html',{'question_id':question,'error_message':"Sorry, but you've already voted."})
 
 def register(request):
 	registered = False
@@ -94,4 +92,3 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/polls/')
-	

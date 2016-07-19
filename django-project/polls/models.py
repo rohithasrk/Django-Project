@@ -4,7 +4,7 @@ from django.utils import timezone
 import datetime as dt
 from django.contrib.auth.models import User
 
-#@python_2_unicode_compatible
+
 class Question(models.Model):
 	question_text=models.CharField(max_length=200)
 	pub_date=models.DateTimeField('Date published')
@@ -18,7 +18,6 @@ class Question(models.Model):
 	was_published_recently.boolean=True
 	was_published_recently.short_description='Published recently?'
 	
-#@python_2_unicode_compatible
 class Choice(models.Model):
 	question=models.ForeignKey(Question, on_delete=models.CASCADE)
 	choice_text=models.CharField(max_length=200)
@@ -31,8 +30,10 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	website = models.URLField(blank=True)
 	picture = models.ImageField(upload_to='profile_images',blank=True)
-	#voted=False
 
 	def __unicode__(self):
 		return self.user.username
 
+class Voter(models.Model):
+	user=models.ForeignKey(User)
+	question=models.ForeignKey(Question)
