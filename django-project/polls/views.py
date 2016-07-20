@@ -83,8 +83,7 @@ def user_login(request):
 			else:
 				return HttpResponse("Disabled")
 		else:
-			print "Invalid login details: {0}{1}".format(username,password)
-			return HttpResponseRedirect("Invalid login details")
+			return render(request,'polls/login.html',{'error_message':'Invalid credentials'})
 	else:
 		return render(request,'polls/login.html',{})
 

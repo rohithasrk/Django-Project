@@ -1,6 +1,7 @@
 {% if user.is_authenticated %}
 <h1>{{object.question_text }}</h1>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>
+{% else %}
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
 {% for choice in object.choice_set.all %}
@@ -9,6 +10,7 @@
 {% endfor %}
 <input type="submit" value="Vote"/><br>
 </form>
+{% endif %}
 {% else %}
 <h1>You need to <a href="/polls/login/">login</a>to vote</h1><br/>
 {% endif %}
