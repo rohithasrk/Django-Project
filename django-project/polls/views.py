@@ -41,7 +41,7 @@ def vote(request, question_id):
 			v.save()
 			return HttpResponseRedirect(reverse('polls:results',args=(question_id,)))
 	else:
-		return render(request,'polls/detail.html',{'question_id':question,'error_message':"Sorry, but you've already voted."})
+		return render(request,'polls/detail.html',{'question':question,'error_message':"Sorry, but you've already voted."})
 
 def register(request):
 	registered = False

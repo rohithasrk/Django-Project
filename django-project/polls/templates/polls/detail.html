@@ -1,7 +1,7 @@
 {% if user.is_authenticated %}
 <h1>{{object.question_text }}</h1>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<form action="{% url 'polls:vote' question_id=object.id %}" method="post">
+<form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
 {% for choice in object.choice_set.all %}
 	<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{choice.id}}"/>
