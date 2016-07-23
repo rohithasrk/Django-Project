@@ -1,17 +1,46 @@
-{% if user.is_authenticated %}
-<h1>{{object.question_text }}</h1>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>
-{% else %}
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in object.choice_set.all %}
-	<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{choice.id}}"/>
-	<label for="choice{{forloop.counter}}">{{ choice.choice_text }}</label><br/>
-{% endfor %}
-<input type="submit" value="Vote"/><br>
-</form>
-{% endif %}
-{% else %}
-<h1>You need to <a href="/polls/login/">login</a>to vote</h1><br/>
-{% endif %}
-<a href="/polls/">Home</a>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Polls</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{% static '/polls/css/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/polls/">Home</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					{% if user.is_authenticated %}
+						<li><a href="/polls/logout/"><span class="glyphicon glyphicon-log-out"></span>&nbsp Logout</a></li>
+					{% else %}
+						<li><a href="/polls/login/"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+		<div class="container">
+		{% if user.is_authenticated %}
+			<h1>{{object.question_text }}</h1>
+			{% if error_message %}
+				<p><strong>{{ error_message }}</strong></p>
+			{% else %}
+				<form action="{% url 'polls:vote' question.id %}" method="post">
+				{% csrf_token %}
+				{% for choice in object.choice_set.all %}
+					<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{choice.id}}"/>
+					<label for="choice{{forloop.counter}}">{{ choice.choice_text }}</label><br/>
+				{% endfor %}
+				<input type="submit" value="Vote"/><br>
+				</form>
+			{% endif %}
+		{% else %}
+			<h1>You need to <a href="/polls/login/">login</a>to vote</h1><br/>
+		{% endif %}
+		</div>
+	</body>
+</html>

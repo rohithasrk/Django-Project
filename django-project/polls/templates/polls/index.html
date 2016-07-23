@@ -1,5 +1,29 @@
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'polls/css/style.css' %}"/>
+<html>
+        <head>
+                <title>Polls</title>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="{% static '/polls/css/style.css' %}">
+                <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        </head>
+        <body>
+                <nav class="navbar navbar-inverse">
+                        <div class="container-fluid">
+                                <div class="navbar-header">
+                                        <a class="navbar-brand" href="/polls/">Home</a>
+                                </div>
+                                <ul class="nav navbar-nav navbar-right">
+                                        {% if user.is_authenticated %}
+                                                <li><a href="/polls/logout/"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout</a></li>
+                                        {% else %}
+                                                <li><a href="/polls/register/"><span class="glyphicon glyphicon-user"></span>&nbsp;Sign up</a>
+						<li><a href="/polls/login/"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</a></li>
+                                        {% endif %}
+                                </ul>
+                        </div>
+                </nav>
+<div class="container">
 {% if user.is_authenticated %}
 	<h1>Hello {{ user.username }}!</h1>
 	{% if latest_question_list %}
@@ -11,8 +35,9 @@
 	{% else %}
     	<p>No polls are available.</p>
 	{% endif %}
-	<a href="/polls/logout/">Logout</a>
 {% else %}
 	<h1> Hello! Please login to continue</h1>
-	<a href="/polls/login/">Login</a>
 {% endif %}
+</div>
+</body>
+</html>

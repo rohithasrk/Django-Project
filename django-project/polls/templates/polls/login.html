@@ -1,26 +1,48 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 	<head>
-	<title>polls-login</title>
+	<title>Login</title>
+	   <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="{% static '/polls/css/style.css' %}">
+                <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	</head>
 	<body>
-		{% if not user.is_authenticated %}
-		<h1>Login to Polls</h1>
-		<form id='login-form' method='post' action='/polls/login/'>
-		{% csrf_token %}
-		Username: <input type='text' name='username' value='' size='50'/><br/>
-		Password: <input type='password' name='password' value'' size='50'/><br/>
-		
-		<input type="submit" value="submit"/>
-		</form>
-		{% if error_message %}
-		<p>{{error_message}}</p>
-		{% endif %}
-		Don't have an account? <a href="/polls/register">Register here</a>
-		{% else %}
-		<h1>Already logged in as {{user.username}}</h1>
-		<a href="/polls/logout/">Logout</a>
-		<a href="/polls/">Home</a>
-		{% endif %}
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/polls/">Home</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/polls/register"><span class="glyphicon glyphicon-user"></span>&nbsp;Sign up</a></li>
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+			{% if not user.is_authenticated %}
+			<h1>Login to Polls</h1>
+			<form role="form" method='post' action='/polls/login/'>
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="username">Username:</label>
+					<input type='text' class="form-control" name='username' />
+				</div>
+				<div class="form-group">
+					<label for="password">Password:</label>
+					<input type='password' class="form-control" name='password' />
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox">Remember me</label>
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+			{% if error_message %}
+				<p>{{error_message}}</p>
+			{% endif %}
+			{% else %}
+			<h1>Already logged in as {{user.username}}</h1>
+			{% endif %}
+		</div>
 	</body>
 </html>
