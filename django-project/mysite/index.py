@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 
 def tem(request):
-	return HttpResponse("Hello")
+	return HttpResponseRedirect("/polls/")
