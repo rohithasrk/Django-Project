@@ -1,9 +1,36 @@
-<h1>{{question.question_text}}</h1>
-
-<ul>
-{% for choice in question.choice_set.all %}
-	<li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{choice.votes|pluralize}}</li>
-{% endfor %}
-</ul>
-
-<a href="/polls/">Home</a>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+        <head>
+                <title>Polls</title>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="{% static 'polls/css/style.css' %}">
+                <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        </head>
+        <body>
+                <nav class="navbar navbar-inverse">
+                        <div class="container-fluid">
+                                <div class="navbar-header">
+                                        <a class="navbar-brand" href="/polls/">Home</a>
+                                </div>
+                                <ul class="nav navbar-nav navbar-right">
+                                        {% if user.is_authenticated %}
+                                                <li><a href="/polls/logout/"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Logout</a></li>
+                                        {% else %}
+                                                <li><a href="/polls/register/"><span class="glyphicon glyphicon-user"></span>&nbsp;Sign up</a>
+                                                <li><a href="/polls/login/"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</a></li>
+                                        {% endif %}
+                                </ul>
+                        </div>
+                </nav>
+		<div class="container">
+			<h1>{{question.question_text}}</h1>
+			<ul>
+			{% for choice in question.choice_set.all %}
+			<li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{choice.votes|pluralize}}</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</body>
+</html>

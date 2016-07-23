@@ -1,22 +1,37 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 	<head>
 		<title>Polls</title>
+		<meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="{% static 'polls/css/style.css' %}">
+                <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	</head>
 	<body>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/polls/">Home</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/polls/login/"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Login</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="container">
 		<h1>Register with Polls</h1>
 		{% if registered %}
 		<strong>thank you for registering</strong>
 		<a href='/polls/'>Return to homepage</a><br/>
 		{% else %}
-		<strong>Register here</strong><br/>
 		
-		<form id='user_form' method='post' action='/polls/register/' enctype='multipart/form-data'>
-		
+		<form role="form" id='user_form' method='post' action='/polls/register/' enctype='multipart/form-data'>	
 			{% csrf_token %}
 			{{user_form.as_p}}
 			{{profile_form.as_p}}
-			<input type='submit' name='submit' value='Register'/>
+			<button type='submit' class="btn btn-default">Register</button>
 		</form>
 		{% endif %}
+		</div>
 	</body>
 </html>
