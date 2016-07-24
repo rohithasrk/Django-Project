@@ -1,6 +1,9 @@
+DJANGO_SETTINGS_MODULE="mysite.settings"
+
 from django import forms
 from django.contrib.auth.models import User
 from .models import UserProfile
+
 
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
