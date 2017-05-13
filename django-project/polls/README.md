@@ -1,4 +1,4 @@
-#TODO:
+# TODO:
 
 * ~~Check for user-authenticaton first~~
 * ~~logout option in each home page~~
